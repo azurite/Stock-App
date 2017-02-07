@@ -26,7 +26,7 @@ const Stocks = React.createClass({
             <Stock
               key={i}
               name={stock.name}
-              desc={stock.description}
+              code={stock.code}
               remove={this.props.remove}
             />
           );
