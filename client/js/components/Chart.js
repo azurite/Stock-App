@@ -2,9 +2,6 @@ const React = require("react");
 const options = require("./options/chart_options");
 const Highstock = require("highcharts/highstock");
 
-Highstock.createElement("link", options.font, null, document.getElementsByTagName("head")[0]);
-Highstock.setOptions(options.theme);
-
 const Chart = React.createClass({
   propTypes: {
     data: React.PropTypes.array.isRequired,
@@ -18,7 +15,7 @@ const Chart = React.createClass({
   },
   formatSingle: function(stock) {
     return {
-      name: stock.name,
+      name: stock.code,
       data: stock.data,
       tooltip: {
         valueDecimals: 2
@@ -26,6 +23,7 @@ const Chart = React.createClass({
     };
   },
   componentDidMount: function() {
+    Highstock.setOptions(options.theme);
     this.chart = Highstock.stockChart({
       chart: {
         renderTo: "stock-container"
@@ -51,7 +49,7 @@ const Chart = React.createClass({
     if(add) {
       var alreadyPresent = false;
       while(i--) {
-        if(series[i].name === add.name) {
+        if(series[i].name === add.code) {
           alreadyPresent = true;
           break;
         }
