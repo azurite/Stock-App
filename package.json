@@ -44,7 +44,6 @@
     "eslint-plugin-react": "^6.9.0",
     "extract-text-webpack-plugin": "^2.0.0-beta.5",
     "html-webpack-plugin": "^2.28.0",
-    "pug": "^2.0.0-beta11",
     "pug-loader": "^2.3.0",
     "style-loader": "^0.13.1",
     "webpack": "^2.2.1",
@@ -55,6 +54,7 @@
   "dependencies": {
     "async": "^2.1.4",
     "highcharts": "^5.0.7",
+    "pug": "^2.0.0-beta11",
     "quandl": "0.0.6",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
