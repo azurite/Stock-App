@@ -3,6 +3,7 @@ const { renderToString } = require("react-dom/server");
 const express = require("express");
 var router = express.Router();
 
+var quandl = require("./api/request");
 var App = require("../client/js/components/App");
 
 var assets = require("./serve_bundles")({
@@ -15,8 +16,17 @@ var assets = require("./serve_bundles")({
 });
 
 router.get("*", (req, res) => {
-  var html = renderToString(<App/>);
-  res.render("index", { app: html, assets: assets });
+  quandl({ code: "FB" }, function(err, data) {
+    if(err) {
+      res.send(err);
+    }
+    else {
+      var html = renderToString(<App/>);
+      res.render("index", { app: html, assets: assets, preload: [data] });
+    }
+  });
+  //var html = renderToString(<App/>);
+  //res.render("index", { app: html, assets: assets });
 });
 
 module.exports = function() {
