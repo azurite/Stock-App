@@ -3,6 +3,7 @@ const Stock = require("./Stock");
 
 const Stocks = React.createClass({
   propTypes: {
+    error: React.PropTypes.object,
     input: React.PropTypes.string.isRequired,
     stocks: React.PropTypes.array.isRequired,
     add: React.PropTypes.func.isRequired,
@@ -10,8 +11,10 @@ const Stocks = React.createClass({
     onChange: React.PropTypes.func.isRequired
   },
   render: function() {
+    var error = this.props.error;
     return (
       <div>
+        {error && <span style={{ color: "#ff0000" }}>{error.message}</span>}
         <form onSubmit={this.props.add}>
           <input
             type="text"

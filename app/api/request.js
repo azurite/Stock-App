@@ -24,7 +24,12 @@ module.exports = function quandlRequest(opt, cb) {
       return;
     }
     if(result.quandl_error) {
-      cb(null, { error: { message: result.quandl_error.message || "quandl error" } });
+      cb(null, {
+        error: {
+          message: result.quandl_error.message ||
+          "unknown error with the quandl api"
+        }
+      });
       return;
     }
     var data = result.dataset;

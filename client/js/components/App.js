@@ -3,24 +3,49 @@ const Axios = require("axios");
 const Chart = require("./Chart");
 const Stocks = require("./Stocks");
 
+function preloadState() {
+  var data;
+  try {
+    data = window.__PRELOADED_DATA__;
+  }
+  catch(e) {
+    data = [];
+  }
+
+  switch(typeof data) {
+    case "string":
+      return JSON.parse(data);
+
+    case "object":
+      return data;
+
+    default:
+      return [];
+  }
+}
+
 const App = React.createClass({
-  propTypes: {
-    preloaded: React.PropTypes.array
-  },
   getInitialState: function() {
     return {
       input: "",
       error: null,
       lastAdded: null,
       lastRemoved: null,
-      stocks: this.props.preloaded || [],
+      stocks: preloadState(),
     };
   },
   addStock: function(e) {
     e.preventDefault();
     var self = this;
 
-    Axios.get("/api/quandl?code=" + this.state.input.toUpperCase())
+    if(this.state.stocks.find((s) => { return s.code === this.state.input.toUpperCase(); })) {
+      this.setState({
+        input: ""
+      });
+      return;
+    }
+
+    Axios.get("/api/quandl?code=" + this.state.input)
     .then((res) => {
       if(res.data.error) {
         self.setState({
@@ -32,6 +57,7 @@ const App = React.createClass({
 
       self.setState({
         input: "",
+        error: null,
         lastAdded: res.data,
         lastRemoved: null,
         stocks: self.state.stocks.concat([res.data])
@@ -45,6 +71,7 @@ const App = React.createClass({
   },
   removeStock: function(code) {
     this.setState({
+      error: null,
       lastAdded: null,
       lastRemoved: code,
       stocks: this.state.stocks.filter((stock) => {
@@ -64,6 +91,7 @@ const App = React.createClass({
           remove={this.state.lastRemoved}
         />
         <Stocks
+          error={this.state.error}
           input={this.state.input}
           stocks={this.state.stocks}
           add={this.addStock}

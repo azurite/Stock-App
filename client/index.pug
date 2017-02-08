@@ -15,9 +15,9 @@ html(lang="en")
   body
     div(id="app") != app
 
-    if preloadedState
+    if preload
       script.
-        window.__PRELOADED_STATE__ = !{JSON.stringify(preloadedState)}
+        window.__PRELOADED_DATA__ = !{JSON.stringify(preload)}
 
     if assets && assets.scripts
       each asset in assets.scripts
