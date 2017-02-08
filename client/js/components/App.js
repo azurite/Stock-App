@@ -4,9 +4,6 @@ const Stocks = require("./Stocks");
 const preloadStocks = require("./utils/preload").stocks;
 
 const App = React.createClass({
-  propTypes: {
-    socket: React.PropTypes.object
-  },
   componentDidMount: function() {
     var socket = this.socket = window.io();
 
