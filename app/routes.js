@@ -16,6 +16,7 @@ var assets = require("./serve_bundles")({
 });
 
 router.get("*", (req, res) => {
+  //fetch current stocks from db here db("fetch")
   quandl({ code: "FB" }, function(err, data) {
     if(err) {
       res.send(err);
@@ -25,8 +26,6 @@ router.get("*", (req, res) => {
       res.render("index", { app: html, assets: assets, preload: [data] });
     }
   });
-  //var html = renderToString(<App/>);
-  //res.render("index", { app: html, assets: assets });
 });
 
 module.exports = function() {
