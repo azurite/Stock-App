@@ -15,6 +15,8 @@ html(lang="en")
   body
     div(id="app") != app
 
+    script(type="text/javascript" src="/socket.io/socket.io.js")
+
     if preload
       script.
         window.__PRELOADED_DATA__ = !{JSON.stringify(preload)}
