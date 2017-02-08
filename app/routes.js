@@ -1,9 +1,10 @@
 const React = require("react");
 const { renderToString } = require("react-dom/server");
+const async = require("async");
 const express = require("express");
 var router = express.Router();
 
-var quandl = require("./api/request");
+var quandl = require("./api/quandl");
 var App = require("../client/js/components/App");
 
 var assets = require("./serve_bundles")({
@@ -15,16 +16,34 @@ var assets = require("./serve_bundles")({
   }
 });
 
-router.get("*", (req, res) => {
-  //fetch current stocks from db here db("fetch")
-  quandl({ code: "FB" }, function(err, data) {
+router.get("*", (req, res, next) => {
+  req.db.smembers("stocks", function(err, members) {
     if(err) {
-      res.send(err);
+      return next();
     }
-    else {
-      var html = renderToString(<App/>);
-      res.render("index", { app: html, assets: assets, preload: [data] });
-    }
+    async.map(
+      members,
+      function(code, next) {
+        quandl({ code: code }, next);
+      },
+      function(err, result) {
+        if(err) {
+          req.preloadedData = [];
+          return next();
+        }
+        req.preloadedData = result;
+        next();
+      }
+    );
+  });
+});
+
+router.get("*", (req, res) => {
+  var html = renderToString(<App/>);
+  res.render("index", {
+    app: html,
+    assets: assets,
+    preload: req.preloadedData
   });
 });
 

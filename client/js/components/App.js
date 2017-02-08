@@ -10,6 +10,7 @@ const App = React.createClass({
     socket.on("add", this.add);
     socket.on("remove", this.remove);
     socket.on("api_error", this.api_error);
+    socket.on("db_error", this.db_error);
   },
   getInitialState: function() {
     return {
@@ -58,6 +59,12 @@ const App = React.createClass({
   api_error: function(err) {
     this.setState({
       input: "",
+      error: err
+    });
+  },
+  db_error: function(err) {
+    err.message = err.message || "database error. Please try again later";
+    this.setState({
       error: err
     });
   },
