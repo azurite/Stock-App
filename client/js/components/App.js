@@ -1,42 +1,39 @@
 const React = require("react");
-const Axios = require("axios");
 const Chart = require("./Chart");
 const Stocks = require("./Stocks");
-
-function preloadState() {
-  var data;
-  try {
-    data = window.__PRELOADED_DATA__;
-  }
-  catch(e) {
-    data = [];
-  }
-
-  switch(typeof data) {
-    case "string":
-      return JSON.parse(data);
-
-    case "object":
-      return data;
-
-    default:
-      return [];
-  }
-}
+const preloadStocks = require("./utils/preload").stocks;
 
 const App = React.createClass({
+  propTypes: {
+    socket: React.PropTypes.object
+  },
+  componentDidMount: function() {
+    var socket = this.socket = window.io();
+
+    socket.on("add", this.add);
+    socket.on("remove", this.remove);
+    socket.on("api_error", this.api_error);
+  },
   getInitialState: function() {
     return {
       input: "",
       error: null,
       lastAdded: null,
       lastRemoved: null,
-      stocks: preloadState(),
+      stocks: preloadStocks(),
     };
+  },
+  add: function(stock) {
+    this.setState({
+      input: "",
+      error: null,
+      lastAdded: stock,
+      lastRemoved: null,
+      stocks: this.state.stocks.concat([stock])
+    });
   },
   addStock: function(e) {
     e.preventDefault();
-    var self = this;
 
     if(this.state.stocks.find((s) => { return s.code === this.state.input.toUpperCase(); })) {
       this.setState({
@@ -45,31 +42,9 @@ const App = React.createClass({
       return;
     }
 
-    Axios.get("/api/quandl?code=" + this.state.input)
-    .then((res) => {
-      if(res.data.error) {
-        self.setState({
-          input: "",
-          error: res.data.error
-        });
-        return;
-      }
-
-      self.setState({
-        input: "",
-        error: null,
-        lastAdded: res.data,
-        lastRemoved: null,
-        stocks: self.state.stocks.concat([res.data])
-      });
-    })
-    .catch((err) => {
-      self.setState({
-        error: err
-      });
-    });
+    this.socket.emit("add", this.state.input);
   },
-  removeStock: function(code) {
+  remove: function(code) {
     this.setState({
       error: null,
       lastAdded: null,
@@ -77,6 +52,16 @@ const App = React.createClass({
       stocks: this.state.stocks.filter((stock) => {
         return stock.code !== code;
       })
+    });
+  },
+  removeStock: function(code) {
+    this.remove(code);
+    this.socket.emit("remove", code);
+  },
+  api_error: function(err) {
+    this.setState({
+      input: "",
+      error: err
     });
   },
   handleInput: function(e) {
