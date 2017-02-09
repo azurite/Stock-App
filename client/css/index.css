@@ -1,3 +1,36 @@
 body {
-  background-color: lightsteelblue;
+  background-color: #222222;
+}
+
+#stock-container {
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+.add-stocks {
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+
+.stock {
+  -webkit-box-shadow: 3px 3px 5px 0px rgba(34,34,34,1);
+  -moz-box-shadow: 3px 3px 5px 0px rgba(34,34,34,1);
+  box-shadow: 3px 3px 5px 0px rgba(34,34,34,1);
+  font-family: "Unice One", sans-serif;
+  padding: 8px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  background-color: #F6F6F6;
+}
+
+.stock:hover {
+  background-color: #E0E0E0;
+}
+
+.stock-code {
+  font-weight: bold;
+}
+
+.err-msg {
+  color: #ff0000;
 }

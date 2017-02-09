@@ -5,7 +5,8 @@ const parts = require("./config/wb_parts.js");
 
 const vendors = [
   "react",
-  "react-dom"
+  "react-dom",
+  "react-bootstrap"
 ];
 
 const PATHS = {

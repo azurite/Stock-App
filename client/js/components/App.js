@@ -1,4 +1,5 @@
 const React = require("react");
+const { Grid } = require("react-bootstrap");
 const Chart = require("./Chart");
 const Stocks = require("./Stocks");
 const preloadStocks = require("./utils/preload").stocks;
@@ -21,6 +22,9 @@ const App = React.createClass({
       stocks: preloadStocks(),
     };
   },
+  inputEmpty: function() {
+    return this.state.input === "";
+  },
   add: function(stock) {
     this.setState({
       input: "",
@@ -37,6 +41,10 @@ const App = React.createClass({
       this.setState({
         input: ""
       });
+      return;
+    }
+
+    if(this.imputEmpty()) {
       return;
     }
 
@@ -73,7 +81,7 @@ const App = React.createClass({
   },
   render: function() {
     return (
-      <div>
+      <Grid fluid>
         <Chart
           data={this.state.stocks}
           add={this.state.lastAdded}
@@ -87,7 +95,7 @@ const App = React.createClass({
           remove={this.removeStock}
           onChange={this.handleInput}
         />
-      </div>
+      </Grid>
     );
   }
 });
