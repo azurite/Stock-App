@@ -69,7 +69,7 @@ switch(process.env.npm_lifecycle_event) {
       },
       parts.clean({ path: PATHS.build.client, exclude: ["media"] }),
       parts.extractBundle({ name: "vendor", entries: vendors }),
-      //parts.setFreeVariables(),
+      parts.setFreeVariables(),
       parts.deduplicate(),
       parts.minify(),
       parts.pugLoader({ include: PATHS.client }),
@@ -108,7 +108,7 @@ switch(process.env.npm_lifecycle_event) {
       },
       parts.clean({ path: PATHS.build.server, exclude: ["media"] }),
       parts.nodeModules(),
-      //parts.setFreeVariables(),
+      parts.setFreeVariables(),
       parts.deduplicate(),
       parts.minify(),
       parts.babelLoader({ include: [PATHS.app, PATHS.main, PATHS.backend] })
