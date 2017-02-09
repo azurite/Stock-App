@@ -10,7 +10,7 @@ const configureSocket = require("./app/socket");
 const redis = require("redis");
 const client = redis.createClient(process.env.REDIS_URL);
 
-app.set("port", process.env.PORT);
+app.set("port", process.env.PORT || 8124);
 app.set("view engine", "pug");
 app.set("views", path.join(process.cwd(), "client"));
 
@@ -24,8 +24,6 @@ const server = require("http").Server(app);
 const io = require("socket.io")(server);
 
 configureSocket(io, client);
-
-console.log("herkou port: ", app.get("port"));
 
 server.listen(app.get("port"), () => {
   console.log("listening on port: " + app.get("port"));
