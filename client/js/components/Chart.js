@@ -1,4 +1,5 @@
 const React = require("react");
+const { Row, Col } = require("react-bootstrap");
 const options = require("./options/chart_options");
 const Highstock = require("highcharts/highstock");
 
@@ -72,7 +73,11 @@ const Chart = React.createClass({
   },
   render: function() {
     return (
-      <div id="stock-container"/>
+      <Row>
+        <Col xs={12}>
+          <div id="stock-container"/>
+        </Col>
+      </Row>
     );
   }
 });

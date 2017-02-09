@@ -1,12 +1,15 @@
 const React = require("react");
+const { Col, Button } = require("react-bootstrap");
 
 const Stock = function(props) {
   return (
-      <div style={{ border: "1px solid #000" }}>
-        <p>{props.code}</p>
+      <Col className="stock" sm={6} xs={10} smOffset={3} xsOffset={1}>
+        <Button className="close" onClick={props.remove.bind(null, props.code)}>
+          <span>&times;</span>
+        </Button>
+        <p className="stock-code">{props.code}</p>
         <p>{props.name}</p>
-        <button onClick={props.remove.bind(null, props.code)}>Remove</button>
-      </div>
+      </Col>
   );
 };
 
