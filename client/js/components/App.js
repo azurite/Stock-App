@@ -44,7 +44,7 @@ const App = React.createClass({
       return;
     }
 
-    if(this.imputEmpty()) {
+    if(this.inputEmpty()) {
       return;
     }
 
