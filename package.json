@@ -13,7 +13,8 @@
     "build:client": "webpack",
     "build:client:dev": "webpack",
     "build:server": "webpack",
-    "build:server:dev": "webpack"
+    "build:server:dev": "webpack",
+    "postinstall": "npm run start:prod"
   },
   "repository": {
     "type": "git",
