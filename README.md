@@ -11,4 +11,4 @@
 * I can remove stocks.
 * I can see changes in real-time when any other user adds or removes a stock.
 
-#### Live version coming soon...
+#### Live version running [here](https://stock-observer.herokuapp.com)
