@@ -10,7 +10,7 @@ module.exports = function configureSocket(io, client) {
             socket.emit("api_error", err);
             return;
           }
-          client.sadd("stocks", code, function(err) {
+          client.sadd("stocks", code.toLowerCase(), function(err) {
             if(err) {
               socket.emit("db_error", err);
               return;
@@ -21,7 +21,7 @@ module.exports = function configureSocket(io, client) {
       });
 
       socket.on("remove", function(code) {
-        client.srem("stocks", code, function(err) {
+        client.srem("stocks", code.toLowerCase(), function(err) {
           if(err) {
             socket.emit("db_error", err);
             return;

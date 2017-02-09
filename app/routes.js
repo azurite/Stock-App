@@ -16,7 +16,8 @@ var assets = require("./serve_bundles")({
   }
 });
 
-router.get("*", (req, res, next) => {
+router.get("*",
+(req, res, next) => {
   req.db.smembers("stocks", function(err, members) {
     if(err) {
       return next();
@@ -36,9 +37,8 @@ router.get("*", (req, res, next) => {
       }
     );
   });
-});
-
-router.get("*", (req, res) => {
+},
+(req, res) => {
   var html = renderToString(<App/>);
   res.render("index", {
     app: html,
