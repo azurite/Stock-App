@@ -8,7 +8,7 @@ const db = require("./app/redis");
 const configureSocket = require("./app/socket");
 
 const redis = require("redis");
-const client = redis.createClient();
+const client = redis.createClient(process.env.REDIS_URL);
 
 app.set("port", process.env.PORT || 8124);
 app.set("view engine", "pug");
@@ -25,6 +25,4 @@ const io = require("socket.io")(server);
 
 configureSocket(io, client);
 
-server.listen(app.get("port"), () => {
-  console.log("listening on port: " + app.get("port"));
-});
+server.listen(app.get("port"));
